@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhyUnified Experiences</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Main Content */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+        
+        @media (min-width: 768px) {
+            .content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        /* Experience Form */
+        .experience-form {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .form-title {
+            color: #1a73e8;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e8f0fe;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .rating {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .rating-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .rating-btn:hover {
+            border-color: #1a73e8;
+        }
+        
+        .rating-btn.selected {
+            background: #1a73e8;
+            color: white;
+            border-color: #1a73e8;
+        }
+        
+        .good {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+        
+        .good.selected {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .bad {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+        
+        .bad.selected {
+            background: #f44336;
+            color: white;
+        }
+        
+        .submit-btn {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #0d62d9;
+        }
+        
+        /* Experiences Display */
+        .experiences-display {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .display-title {
+            color: #1a73e8;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e8f0fe;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active {
+            background: #1a73e8;
+            color: white;
+            border-color: #1a73e8;
+        }
+        
+        .experiences-list {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .experience-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #1a73e8;
+        }
+        
+        .experience-item.good {
+            border-left-color: #4caf50;
+        }
+        
+        .experience-item.bad {
+            border-left-color: #f44336;
+        }
+        
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .experience-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .experience-type {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .type-good {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .type-bad {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .experience-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .experience-text {
+            color: #444;
+            margin-top: 0.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        .footer-text {
+            opacity: 0.8;
+        }
+        
+        /* No experiences message */
+        .no-experiences {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #666;
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo">WhyUnified Experiences</h1>
+            <p class="tagline">Share your honest experience with WhyUnified. All feedback welcome - the good, the bad, and everything in between.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="content">
+            <section class="experience-form">
+                <h2 class="form-title">Share Your Experience</h2>
+                <form id="experienceForm">
+                    <div class="form-group">
+                        <label for="name">Your Name (Optional)</label>
+                        <input type="text" id="name" placeholder="John Doe">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email (Optional, never displayed)</label>
+                        <input type="email" id="email" placeholder="john@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Experience Type</label>
+                        <div class="rating">
+                            <button type="button" class="rating-btn good" data-value="good">👍 Good Experience</button>
+                            <button type="button" class="rating-btn bad" data-value="bad">👎 Bad Experience</button>
+                        </div>
+                        <input type="hidden" id="experienceType" value="">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience">Your Experience Details</label>
+                        <textarea id="experience" placeholder="Please share your detailed experience with WhyUnified. What went well? What could be improved? How was the service, support, and overall experience?" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Share Your Experience</button>
+                </form>
+            </section>
+            
+            <section class="experiences-display">
+                <div class="display-title">
+                    <h2>Community Experiences</h2>
+                    <span id="experienceCount">0 Experiences</span>
+                </div>
+                
+                <div class="filter-controls">
+                    <button class="filter-btn active" data-filter="all">All Experiences</button>
+                    <button class="filter-btn" data-filter="good">Good Experiences</button>
+                    <button class="filter-btn" data-filter="bad">Bad Experiences</button>
+                </div>
+                
+                <div class="experiences-list" id="experiencesList">
+                    <!-- Experiences will be loaded here -->
+                    <div class="no-experiences">
+                        <p>No experiences shared yet. Be the first to share your WhyUnified experience!</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p class="footer-text">WhyUnified Experiences - An honest collection of user experiences</p>
+            <p class="footer-text">All experiences are user-submitted and stored locally in your browser</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize variables and localStorage
+        let experiences = JSON.parse(localStorage.getItem('whyunified_experiences')) || [];
+        let selectedType = '';
+        let currentFilter = 'all';
+
+        // DOM elements
+        const experienceForm = document.getElementById('experienceForm');
+        const experienceTypeInput = document.getElementById('experienceType');
+        const ratingButtons = document.querySelectorAll('.rating-btn');
+        const experiencesList = document.getElementById('experiencesList');
+        const experienceCount = document.getElementById('experienceCount');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        // Set up rating buttons
+        ratingButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                ratingButtons.forEach(btn => btn.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedType = this.getAttribute('data-value');
+                experienceTypeInput.value = selectedType;
+            });
+        });
+
+        // Set up filter buttons
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.getAttribute('data-filter');
+                displayExperiences();
+            });
+        });
+
+        // Handle form submission
+        experienceForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const experienceText = document.getElementById('experience').value.trim();
+            const type = experienceTypeInput.value;
+            
+            // Validate
+            if (!experienceText) {
+                alert('Please share your experience details');
+                return;
+            }
+            
+            if (!type) {
+                alert('Please select your experience type (good or bad)');
+                return;
+            }
+            
+            // Create experience object
+            const newExperience = {
+                id: Date.now(),
+                name: name || 'Anonymous',
+                email: email,
+                type: type,
+                text: experienceText,
+                date: new Date().toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })
+            };
+            
+            // Add to array and save
+            experiences.unshift(newExperience);
+            saveExperiences();
+            
+            // Reset form
+            experienceForm.reset();
+            ratingButtons.forEach(btn => btn.classList.remove('selected'));
+            experienceTypeInput.value = '';
+            selectedType = '';
+            
+            // Show success message
+            alert('Thank you for sharing your experience! It has been added to the website.');
+            
+            // Update display
+            displayExperiences();
+        });
+
+        // Save experiences to localStorage
+        function saveExperiences() {
+            localStorage.setItem('whyunified_experiences', JSON.stringify(experiences));
+        }
+
+        // Display experiences
+        function displayExperiences() {
+            // Filter experiences based on current filter
+            let filteredExperiences = experiences;
+            if (currentFilter !== 'all') {
+                filteredExperiences = experiences.filter(exp => exp.type === currentFilter);
+            }
+            
+            // Update count
+            experienceCount.textContent = `${filteredExperiences.length} Experience${filteredExperiences.length !== 1 ? 's' : ''}`;
+            
+            // Clear current list
+            experiencesList.innerHTML = '';
+            
+            // If no experiences
+            if (filteredExperiences.length === 0) {
+                const noExp = document.createElement('div');
+                noExp.className = 'no-experiences';
+                noExp.innerHTML = `<p>No ${currentFilter !== 'all' ? currentFilter : ''} experiences to display. Share yours above!</p>`;
+                experiencesList.appendChild(noExp);
+                return;
+            }
+            
+            // Add each experience to the list
+            filteredExperiences.forEach(exp => {
+                const expElement = document.createElement('div');
+                expElement.className = `experience-item ${exp.type}`;
+                
+                const typeText = exp.type === 'good' ? 'Good Experience' : 'Bad Experience';
+                const typeClass = exp.type === 'good' ? 'type-good' : 'type-bad';
+                
+                expElement.innerHTML = `
+                    <div class="experience-header">
+                        <div class="experience-name">${exp.name}</div>
+                        <div class="experience-type ${typeClass}">${typeText}</div>
+                    </div>
+                    <div class="experience-date">${exp.date}</div>
+                    <div class="experience-text">${exp.text}</div>
+                `;
+                
+                experiencesList.appendChild(expElement);
+            });
+        }
+
+        // Load sample experiences if none exist
+        function loadSampleExperiences() {
+            if (experiences.length === 0) {
+                const sampleExperiences = [
+                    {
+                        id: 1,
+                        name: 'Alex Johnson',
+                        email: '',
+                        type: 'good',
+                        text: 'WhyUnified helped streamline our e-commerce operations significantly. The dashboard is intuitive and their support team was responsive.',
+                        date: 'Mar 15, 2024, 10:30 AM'
+                    },
+                    {
+                        id: 2,
+                        name: 'Sam Rivera',
+                        email: '',
+                        type: 'bad',
+                        text: 'Had issues with integration that took too long to resolve. The initial setup was not as smooth as expected.',
+                        date: 'Feb 28, 2024, 03:45 PM'
+                    },
+                    {
+                        id: 3,
+                        name: 'Taylor Smith',
+                        email: '',
+                        type: 'good',
+                        text: 'Great platform for managing multiple storefronts. The analytics feature alone has helped increase our sales by 15%.',
+                        date: 'Apr 2, 2024, 09:15 AM'
+                    }
+                ];
+                
+                experiences = sampleExperiences;
+                saveExperiences();
+            }
+        }
+
+        // Initialize the page
+        function init() {
+            loadSampleExperiences();
+            displayExperiences();
+        }
+
+        // Start the application
+        init();
+    </script>
+</body>
+</html>
